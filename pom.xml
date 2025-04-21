@@ -6,12 +6,31 @@
 
     <groupId>com.github.jahong1r-t</groupId>
     <artifactId>log-analyzer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>log-analyzer</name>
+    <description>Simple Java CLI log analyzer with filtering, stats, search, and CSV conversion</description>
+    <url>https://github.com/jahong1r-t/log-analyzer</url>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <scm>
+        <url>https://github.com/jahong1r-t/log-analyzer</url>
+        <connection>scm:git:git://github.com/jahong1r-t/log-analyzer.git</connection>
+        <developerConnection>scm:git:ssh://github.com:jahong1r-t/log-analyzer.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/jahong1r-t/log-analyzer</url>
+        </repository>
+    </distributionManagement>
 
 </project>

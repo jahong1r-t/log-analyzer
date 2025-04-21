@@ -19,24 +19,24 @@ markdown
 
 ### 1. Compile the project:
 ```bash
-javac src/LogAnalyzer.java -d out
+javac src/LogService.java -d out
 
 
 ### 2. Run the analyzer:
 
 #### Extract only `ERROR` logs:
 ```bash
-java -cp out LogAnalyzer logs/sample.log ERROR
+java -cp out LogService logs/sample.log ERROR
 ```
 
 #### Search logs by keyword:
 ```bash
-java -cp out LogAnalyzer logs/sample.log search "database"
+java -cp out LogService logs/sample.log search "database"
 ```
 
 #### Show log statistics:
 ```bash
-java -cp out LogAnalyzer logs/sample.log stats
+java -cp out LogService logs/sample.log stats
 ```
 
 ---
