@@ -13,11 +13,33 @@
     <description>Simple Java CLI log analyzer with filtering, stats, search, and CSV conversion</description>
     <url>https://github.com/jahong1r-t/log-analyzer</url>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jahongir To'rayev</name>
+            <email>jahongirtorayev1507@gmail.com</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub jahong1r-t Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/jahong1r-t/log-analyzer</url>
+        </repository>
+    </distributionManagement>
 
     <scm>
         <url>https://github.com/jahong1r-t/log-analyzer</url>
@@ -25,13 +47,6 @@
         <developerConnection>scm:git:ssh://github.com:jahong1r-t/log-analyzer.git</developerConnection>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/jahong1r-t/log-analyzer</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <plugins>
