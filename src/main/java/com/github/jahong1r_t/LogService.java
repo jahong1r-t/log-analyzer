@@ -14,10 +14,11 @@ public class LogService {
         File logFile = new File(file);
         File outputFile = new File(level.toLowerCase() + ".log");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(logFile)); BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.contains(level)) {
+                if (line.toUpperCase().contains(level.toUpperCase())) {
                     writer.write(line);
                     writer.newLine();
                 }
@@ -67,7 +68,7 @@ public class LogService {
             String line;
             while ((line = reader.readLine()) != null) {
                 for (String level : stats.keySet()) {
-                    if (line.contains(level)) {
+                    if (line.toUpperCase().contains(level)) {
                         stats.put(level, stats.get(level) + 1);
                         break;
                     }
@@ -108,38 +109,59 @@ public class LogService {
         }
     }
 
-
-    public boolean isFileTooLarge(String filePath, long maxSizeInMB) {
-        File file = new File(filePath);
-        long sizeInBytes = file.length();
-        long sizeInMB = sizeInBytes / (1024 * 1024);
-        return sizeInMB > maxSizeInMB;
-    }
-
     public void removeDuplicateLogs(String filePath, String outputPath) {
-        Set<String> uniqueLines = new LinkedHashSet<>();
+        if (filePath == null || filePath.trim().isEmpty() || outputPath == null || outputPath.trim().isEmpty()) {
+            System.err.println("Error: File path or output path is null or empty.");
+            return;
+        }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        File outputFile = new File(outputPath);
+        if (outputFile.isDirectory()) {
+            System.err.println("Error: Output path '" + outputPath + "' is a directory, not a file.");
+            return;
+        }
+
+        File parentDir = outputFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            try {
+                parentDir.mkdirs();
+            } catch (SecurityException e) {
+                System.err.println("Error: Cannot create parent directory '" + parentDir.getPath() + "': " + e.getMessage());
+                return;
+            }
+        }
+
+        if (parentDir != null && !parentDir.canWrite()) {
+            System.err.println("Error: No write permission for directory '" + parentDir.getPath() + "'.");
+            return;
+        }
+
+        Set<String> uniqueLines = new LinkedHashSet<>();
+        File inputFile = new File(filePath);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 uniqueLines.add(line);
             }
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: Input file '" + filePath + "' not found.");
+            return;
         } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            System.err.println("Error reading file '" + filePath + "': " + e.getMessage());
             return;
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             for (String line : uniqueLines) {
                 writer.write(line);
                 writer.newLine();
             }
             System.out.println("Duplicates removed. Output written to: " + outputPath);
         } catch (IOException e) {
-            System.err.println("Error writing output file: " + e.getMessage());
+            System.err.println("Error writing to output file '" + outputPath + "': " + e.getMessage());
         }
     }
-
 
     public void convertLogsToCsv(String filePath, String outputPath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath)); BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {

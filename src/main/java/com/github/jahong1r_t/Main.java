@@ -2,9 +2,11 @@ package com.github.jahong1r_t;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Map;
 
 public class Main {
+
     public static void main(String[] args) {
         if (args.length == 0 || args[0].equals("--help")) {
             printHelp();
@@ -40,17 +42,6 @@ public class Main {
                 }
                 break;
 
-            case "--check-size":
-                if (args.length >= 3) {
-                    boolean tooLarge = service.isFileTooLarge(args[1], Long.parseLong(args[2]));
-                    System.out.println(tooLarge
-                            ? "File is too large"
-                            : "File size is within the limit");
-                } else {
-                    System.out.println("Missing arguments. Usage: --check-size <file> <maxMB>");
-                }
-                break;
-
             case "--search":
                 if (args.length >= 3)
                     service.searchLogs(args[1], args[2]);
@@ -79,13 +70,12 @@ public class Main {
 
     private static void printHelp() {
         System.out.println("""
-                Usage: java -jar log-analyzer.jar [command] [options]
+                Usage: java -jar log-analyzer-1.0.0.jar [command] [options]
                 
                 Commands:
                   --level <file> <LEVEL>         Filter logs by level (INFO, DEBUG, WARN, ERROR)
                   --stats <file>                 Analyze log levels and show counts
                   --time <file> <from> <to>      Filter logs by time range (format: yyyy-MM-dd HH:mm:ss)
-                  --check-size <file> <maxMB>    Check if log file exceeds given size in MB
                   --search <file> <keyword>      Search for keyword in logs
                   --deduplicate <file> <output>  Remove duplicate log lines
                   --to-csv <file> <output>       Convert logs to CSV format
